@@ -5,4 +5,19 @@
 <project name="org.netbeans.modules.utils.project.md.documentation" default="netbeans" basedir=".">
     <description>Builds, tests, and runs the project org.netbeans.modules.utils.project.md.documentation.</description>
     <import file="nbproject/build-impl.xml"/>
+    <target name="generate-antlr-parser" description="Regenerate the ANTLRv4 parser" depends="init">
+        <property name="md.outdir" location="${src.dir}/org/antlr/parser/markdown"/>
+        <path id="antlr4.tool">
+            <fileset dir="external" includes="*.jar"/>
+        </path>
+
+        <java classname="org.antlr.v4.Tool" classpathref="antlr4.tool" fork="true" dir="${md.outdir}">
+            <arg value="-o"/>
+            <arg value="${md.outdir}"/>
+            <arg value="MdAntlrLexer.g4"/>
+            <arg value="MdAntlrParser.g4"/>
+        </java>
+        <delete dir="${md.outdir}" includes="*.tokens"/>
+        <delete dir="${md.outdir}" includes="*.interp"/>
+    </target>
 </project>
