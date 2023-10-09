@@ -10,6 +10,12 @@ tokens { TOKEN_REF , RULE_REF , LEXER_CHAR_SET }
   
 LI_PRE_WS : {this.IsNewLineOrStart()}? LiPrefix;  
 
+fragment LiPrefix
+    : ([ \t]* '- ')
+    | ([ \t]* '* ')
+    | ([ \t]* [0-9]+ '. ')
+    ;
+
 BLOCK_CODE : TriBacktip .*? (TriBacktip | EOF);
 
 TriBacktip : '```';
@@ -39,20 +45,6 @@ fragment Header
 
 BREAK_LINE : ('---')+[-]* ~[\n\r];
 
-fragment LiPrefix
-    : ([ \t]* '- ')
-    | ([ \t]* '* ')
-    | ([ \t]* [0-9]+ '. ')
-    ;
-
-//fragment LiItem
-//    : (('-')+[ ]) ~ [\n\r]*
-//    | (('*')+[ ]) ~ [\n\r]*
-//    | ([0-9]+ ('.') [ ]) ~ [\n\r]*
-//    ;
-
-//text highlight
-
 BOLD
     : Bold;
 
@@ -81,5 +73,12 @@ fragment BacktickCode
    ;
 
 CODE : BacktickCode;
+
+HYPER_LINK_LABEL
+    : '[' ~('\r' | '\n' | '[' | '(' | ')')* (']' | EOF)
+    ;
+
+HYPER_LINK  : '(' ~('\r' | '\n' | '(' | '[' | ']')* (')' | EOF)
+    ;
 
 RAW_TEXT : . ->channel(HIDDEN);

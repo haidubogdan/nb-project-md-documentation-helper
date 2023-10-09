@@ -68,6 +68,8 @@ public enum MdTokenId implements TokenId {
     LI("li_item"),
     NEWLINE("whitespace"),
     WHITESPACE("whitespace"),
+    HYPER_LINK_LABEL("link_label"),
+    HYPER_LINK("link"),
     RAW_TEXT("html"),
     ERROR("error");
 

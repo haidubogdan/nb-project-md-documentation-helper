@@ -85,6 +85,10 @@ public class MdLexer extends AbstractAntlrLexerBridge<MdAntlrLexer, MdTokenId> {
                 return token(CODE);
             case MdAntlrLexer.LI_PRE_WS:
                 return token(LI);
+            case MdAntlrLexer.HYPER_LINK_LABEL:
+                return token(HYPER_LINK_LABEL);
+            case MdAntlrLexer.HYPER_LINK:
+                return token(HYPER_LINK); 
             case MdAntlrLexer.NL:
                 return token(NEWLINE);
             case MdAntlrLexer.WS:

@@ -21,7 +21,7 @@ public class MdAntlrParser extends Parser {
 	public static final int
 		TOKEN_REF=1, RULE_REF=2, LEXER_CHAR_SET=3, LI_PRE_WS=4, BLOCK_CODE=5, 
 		TriBacktip=6, HTML=7, NL=8, WS=9, HEADER=10, BREAK_LINE=11, BOLD=12, ITALIC=13, 
-		CODE=14, RAW_TEXT=15;
+		CODE=14, HYPER_LINK_LABEL=15, HYPER_LINK=16, RAW_TEXT=17;
 	public static final int
 		RULE_file = 0, RULE_element = 1, RULE_list = 2, RULE_header = 3, RULE_breakLine = 4, 
 		RULE_textEffect = 5, RULE_html = 6, RULE_rawText = 7, RULE_listItem = 8, 
@@ -44,7 +44,7 @@ public class MdAntlrParser extends Parser {
 		return new String[] {
 			null, "TOKEN_REF", "RULE_REF", "LEXER_CHAR_SET", "LI_PRE_WS", "BLOCK_CODE", 
 			"TriBacktip", "HTML", "NL", "WS", "HEADER", "BREAK_LINE", "BOLD", "ITALIC", 
-			"CODE", "RAW_TEXT"
+			"CODE", "HYPER_LINK_LABEL", "HYPER_LINK", "RAW_TEXT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -141,7 +141,7 @@ public class MdAntlrParser extends Parser {
 				setState(25); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 48528L) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 146832L) != 0) );
 			setState(27);
 			match(EOF);
 			}
@@ -644,7 +644,7 @@ public class MdAntlrParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\u000f=\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\u0011=\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0001\u0000\u0004\u0000\u0018"+
@@ -675,7 +675,7 @@ public class MdAntlrParser extends Parser {
 		"\u0001\u0000\u0000\u0000-.\u0005\u000b\u0000\u0000./\u0005\b\u0000\u0000"+
 		"/\t\u0001\u0000\u0000\u000001\u0007\u0000\u0000\u00001\u000b\u0001\u0000"+
 		"\u0000\u000023\u0005\u0007\u0000\u00003\r\u0001\u0000\u0000\u000045\u0005"+
-		"\u000f\u0000\u00005\u000f\u0001\u0000\u0000\u000067\u0005\u0004\u0000"+
+		"\u0011\u0000\u00005\u000f\u0001\u0000\u0000\u000067\u0005\u0004\u0000"+
 		"\u00007\u0011\u0001\u0000\u0000\u000089\u0005\u000e\u0000\u00009\u0013"+
 		"\u0001\u0000\u0000\u0000:;\u0005\u0005\u0000\u0000;\u0015\u0001\u0000"+
 		"\u0000\u0000\u0003\u0019$)";
