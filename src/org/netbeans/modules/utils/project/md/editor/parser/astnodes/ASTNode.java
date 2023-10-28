@@ -11,7 +11,6 @@ public abstract class ASTNode {
 
     private int startOffset;
     private int endOffset;
-    //private ASTNode parent = null;
 
     public ASTNode(int start, int end) {
         assert start >= 0;
@@ -29,6 +28,10 @@ public abstract class ASTNode {
         return endOffset;
     }
 
+    public final void setEndOffset(int offset) {
+        endOffset = offset;
+    }
+
     public final void setSourceRange(int startOffset, int endOffset) {
         if (startOffset >= 0 && endOffset < 0) {
             throw new IllegalArgumentException();
@@ -44,8 +47,8 @@ public abstract class ASTNode {
     }
 
     public abstract void accept(Visitor visitor);
-    
-    public OffsetRange getOffsetRange(){
+
+    public OffsetRange getOffsetRange() {
         return new OffsetRange(this.getStartOffset(), this.getEndOffset());
     }
 }

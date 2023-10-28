@@ -31,6 +31,18 @@ public class MdAntlrParserBaseListener implements MdAntlrParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMain_element(MdAntlrParser.Main_elementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMain_element(MdAntlrParser.Main_elementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterElement(MdAntlrParser.ElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -50,6 +62,18 @@ public class MdAntlrParserBaseListener implements MdAntlrParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitList(MdAntlrParser.ListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterListItem(MdAntlrParser.ListItemContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitListItem(MdAntlrParser.ListItemContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -115,18 +139,6 @@ public class MdAntlrParserBaseListener implements MdAntlrParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterListItem(MdAntlrParser.ListItemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitListItem(MdAntlrParser.ListItemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterCode(MdAntlrParser.CodeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -146,6 +158,18 @@ public class MdAntlrParserBaseListener implements MdAntlrParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBlockCode(MdAntlrParser.BlockCodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLink(MdAntlrParser.LinkContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLink(MdAntlrParser.LinkContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

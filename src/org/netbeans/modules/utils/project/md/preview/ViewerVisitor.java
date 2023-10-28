@@ -1,8 +1,6 @@
 package org.netbeans.modules.utils.project.md.preview;
 
-import org.netbeans.modules.utils.project.md.editor.parser.astnodes.Header;
-import org.netbeans.modules.utils.project.md.editor.parser.astnodes.HtmlElement;
-import org.netbeans.modules.utils.project.md.editor.parser.astnodes.MdList;
+import org.netbeans.modules.utils.project.md.editor.parser.astnodes.*;
 import org.netbeans.modules.utils.project.md.editor.parser.astnodes.visitors.DefaultVisitor;
 
 /**
@@ -15,6 +13,13 @@ public class ViewerVisitor extends DefaultVisitor {
 
     @Override
     public void visit(Header node) {
+        if (node != null) {
+            html += node.toString();
+        }
+    }
+    
+    @Override
+    public void visit(Code node) {
         if (node != null) {
             html += node.toString();
         }
@@ -32,7 +37,14 @@ public class ViewerVisitor extends DefaultVisitor {
     }
 
     @Override
-    public void visit(HtmlElement node) {
+    public void visit(Scalar node) {
+        if (node != null) {
+            html += node.toString();
+        }
+    }
+    
+    @Override
+    public void visit(HyperLink node) {
         if (node != null) {
             html += node.toString();
         }

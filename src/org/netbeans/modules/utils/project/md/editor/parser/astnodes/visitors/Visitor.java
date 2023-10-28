@@ -14,7 +14,15 @@ public interface Visitor {
     
     public void visit(Header node);
     
+    public void visit(Code node);
+    
     public void visit(MdList node);
     
     public void visit(HtmlElement node);
+    
+    public void visit(Scalar node);
+    
+    public void visit(HyperLink node);
+    
+    public void visit(TextEffect node);
 }

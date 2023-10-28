@@ -1,5 +1,6 @@
 package org.netbeans.modules.utils.project.md.editor.parser.astnodes;
 
+import java.util.ArrayList;
 import org.netbeans.modules.utils.project.md.editor.parser.astnodes.visitors.Visitor;
 
 /**
@@ -8,16 +9,26 @@ import org.netbeans.modules.utils.project.md.editor.parser.astnodes.visitors.Vis
  */
 public class ListItem extends MdElement {
 
-    String content;
+    ArrayList<ASTNode> contentItems;
 
-    public ListItem(int start, int end, String content) {
+    public ListItem(int start, int end, ArrayList<ASTNode> contentItems) {
         super(start, end);
-        this.content = content;
+        this.contentItems = contentItems;
     }
 
+    public void addContentItem(ASTNode item) {
+        contentItems.add(item);
+    }
+    
     @Override
     public String toString() {
-        return "<li>" + content + "</li>";
+        StringBuilder sb = new StringBuilder();
+        sb.append("<li>");
+        for (ASTNode item : contentItems) {
+            sb.append(item.toString());
+        }
+        sb.append("</li>");
+        return sb.toString();
     }
 
     @Override

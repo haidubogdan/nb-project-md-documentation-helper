@@ -32,10 +32,6 @@ fragment HtmlElement
 
 NL :[\n\r];
 
-WS
-    : [ \t]+
-    ;
-
 HEADER
     : Header;
 
@@ -48,6 +44,7 @@ BREAK_LINE : ('---')+[-]* ~[\n\r];
 BOLD
     : Bold;
 
+//should look for hyper links
 fragment Bold
     : DbAsterix .*? (DbAsterix | EOF);
 
@@ -81,4 +78,4 @@ HYPER_LINK_LABEL
 HYPER_LINK  : '(' ~('\r' | '\n' | '(' | '[' | ']')* (')' | EOF)
     ;
 
-RAW_TEXT : . ->channel(HIDDEN);
+RAW_TEXT : . ;

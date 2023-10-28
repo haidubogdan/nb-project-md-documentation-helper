@@ -1,10 +1,6 @@
 package org.netbeans.modules.utils.project.md.editor.parser.astnodes.visitors;
 
-import org.netbeans.modules.utils.project.md.editor.parser.astnodes.ASTNode;
-import org.netbeans.modules.utils.project.md.editor.parser.astnodes.Header;
-import org.netbeans.modules.utils.project.md.editor.parser.astnodes.HtmlElement;
-import org.netbeans.modules.utils.project.md.editor.parser.astnodes.MarkdownFile;
-import org.netbeans.modules.utils.project.md.editor.parser.astnodes.MdList;
+import org.netbeans.modules.utils.project.md.editor.parser.astnodes.*;
 
 /**
  *
@@ -17,7 +13,7 @@ public class DefaultVisitor implements Visitor {
             node.accept(this);
         }
     }
-    
+
     public void scan(Iterable<? extends ASTNode> nodes) {
         if (nodes != null) {
             for (ASTNode n : nodes) {
@@ -33,23 +29,33 @@ public class DefaultVisitor implements Visitor {
 
     @Override
     public void visit(ASTNode node) {
-
     }
 
     @Override
     public void visit(Header node) {
-        
     }
 
     @Override
     public void visit(MdList node) {
-        
     }
 
     @Override
     public void visit(HtmlElement node) {
+    }
 
+    @Override
+    public void visit(Code node) {
+    }
+
+    @Override
+    public void visit(Scalar node) {
     }
     
-
+    @Override
+    public void visit(HyperLink node) {
+    }
+    
+    @Override
+    public void visit(TextEffect node) {
+    }
 }

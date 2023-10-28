@@ -218,17 +218,17 @@ public final class MdLanguage extends DefaultLanguageConfig {
                 }
 
     }.language();
-//
-//    @NbBundle.Messages("Source=&Source Markdown")
-//    @MultiViewElement.Registration(
-//            displayName = "#Source",
-//            persistenceType = TopComponent.PERSISTENCE_ONLY_OPENED,
-//            mimeType = MdLanguage.MIME_TYPE,
-//            preferredID = "md.source",
-//            position = 100
-//    )
-//    public static MultiViewEditorElement createMultiViewEditorElement(Lookup context) {
-//        return new MultiViewEditorElement(context);
-//    }
+
+    @NbBundle.Messages("Source=&Source Markdown")
+    @MultiViewElement.Registration(
+            displayName = "#Source",
+            persistenceType = TopComponent.PERSISTENCE_ONLY_OPENED,
+            mimeType = MdLanguage.MIME_TYPE,
+            preferredID = "md.source",
+            position = 100
+    )
+    public static MultiViewEditorElement createMultiViewEditorElement(Lookup context) {
+        return new MultiViewEditorElement(context);
+    }
 
 }

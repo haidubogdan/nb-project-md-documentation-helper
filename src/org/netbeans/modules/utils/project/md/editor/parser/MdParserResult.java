@@ -71,69 +71,123 @@ public class MdParserResult<T extends Parser> extends ParserResult {
     protected void evaluateParser(MdAntlrParser parser) {
         parser.file();
     }
-    
-    public MarkdownFile getAstnMarkdownFile(){
+
+    public MarkdownFile getAstnMarkdownFile() {
         return astMarkdownfile;
     }
 
     protected ParseTreeListener createElementsListener() {
         astMarkdownfile = new MarkdownFile(0, getSnapshot().getText().length());
+
         return new MdAntlrParserBaseListener() {
-            
-            @Override
-            public void enterFile(MdAntlrParser.FileContext ctx) {
-                int x = 1;
-            }
-            
-            @Override
-            public void exitElement(MdAntlrParser.ElementContext ctx) {
-                int x = 1;
-            }
+            ArrayList<ListItem> mdListItems = new ArrayList<>();
+            ListItem bufferListItem = null;
 
             @Override
-            public void exitHeader(MdAntlrParser.HeaderContext ctx) {
+            public void exitHeader(MdAntlrParser.HeaderContext context) {
 
-                if (ctx.HEADER() == null || ctx.HEADER().getSymbol()== null){
+                if (context.HEADER() == null || context.HEADER().getSymbol() == null) {
                     return;
                 }
 
-                Token token = ctx.HEADER().getSymbol();
+                Token token = context.HEADER().getSymbol();
                 astMarkdownfile.addMdElement(new Header(token.getStartIndex(), token.getStopIndex() + 1, token.getText()));
             }
-            
+
             @Override
-            public void exitList(MdAntlrParser.ListContext ctx) {
-                   Token token = ctx.getStart();
-                
-                ArrayList<ListItem> listItems = new ArrayList<>();
-                
-                for (ParseTree child : ctx.children){
-                    MdAntlrParser.ListItemContext listItemContext = (MdAntlrParser.ListItemContext) child;
-                    Token liItemToken = listItemContext.getStart();
-                    int start = liItemToken.getStartIndex();
-                    int stop = liItemToken.getStopIndex() + 1;
-                    listItems.add(new ListItem(start, stop, liItemToken.getText()));
-                }
-                
-                MdList MdList = new MdList(token.getStartIndex(), token.getStopIndex() + 1, listItems);
-                astMarkdownfile.addMdElement(MdList);
-            }
-            
-            @Override
-            public void exitHtml(MdAntlrParser.HtmlContext ctx) {
-               if (ctx.HTML() == null || ctx.HTML().getSymbol()== null){
+            public void exitHtml(MdAntlrParser.HtmlContext context) {
+                if (context.HTML() == null || context.HTML().getSymbol() == null) {
                     return;
                 }
 
-                Token token = ctx.HTML().getSymbol();
-                astMarkdownfile.addMdElement(new HtmlElement(token.getStartIndex(), token.getStopIndex() + 1, token.getText()));
+                Token token = context.HTML().getSymbol();
+                Scalar element = new Scalar(token.getStartIndex(), token.getStopIndex() + 1, token.getText());
+                addNodeToAST(element);
             }
-            
+
             @Override
-            public void exitBreakLine(MdAntlrParser.BreakLineContext ctx){
-                
+            public void exitRawText(MdAntlrParser.RawTextContext context) {
+                if (context.RAW_TEXT() == null || context.RAW_TEXT().getSymbol() == null) {
+                    return;
+                }
+
+                Token token = context.RAW_TEXT().getSymbol();
+                Scalar element = new Scalar(token.getStartIndex(), token.getStopIndex() + 1, token.getText());
+                addNodeToAST(element);
             }
-            
+
+            @Override
+            public void exitCode(MdAntlrParser.CodeContext context) {
+                if (context.CODE() == null || context.CODE().getSymbol() == null) {
+                    return;
+                }
+
+                Token token = context.CODE().getSymbol();
+                Code element = new Code(token.getStartIndex(), token.getStopIndex() + 1, token.getText());
+                addNodeToAST(element);
+            }
+
+            @Override
+            public void exitTextEffect(MdAntlrParser.TextEffectContext context) {
+                if (context.BOLD() != null) {
+                    Token token = context.BOLD().getSymbol();
+                    if (token.getText().length() < 4) {
+                        return;
+                    }
+                    String text = token.getText().substring(2, token.getText().length() - 2);
+                    addNodeToAST(new TextEffect(token.getStartIndex(),
+                            token.getStopIndex(), TextEffect.Type.BOLD, text));
+                } else if (context.ITALIC() != null) {
+                    Token token = context.BOLD().getSymbol();
+                    if (token.getText().length() < 2) {
+                        return;
+                    }
+                    String text = token.getText().substring(1, token.getText().length() - 1);
+                    addNodeToAST(new TextEffect(token.getStartIndex(),
+                            token.getStopIndex(), TextEffect.Type.ITALIC, text));
+                }
+            }
+
+            @Override
+            public void exitLink(MdAntlrParser.LinkContext context) {
+                if (context.HYPER_LINK_LABEL() == null || context.HYPER_LINK_LABEL().getSymbol() == null) {
+                    return;
+                }
+
+                Token label = context.HYPER_LINK_LABEL().getSymbol();
+                Token link = context.HYPER_LINK().getSymbol();
+                String labelText = label.getText().substring(1, label.getText().length() - 1);
+                int start = link.getStartIndex();
+                String linkText = link.getText().substring(1, link.getText().length() - 1);
+                int end = label.getStopIndex() + 1;
+                HyperLink linkElement = new HyperLink(start, end, linkText, labelText);
+                addNodeToAST(linkElement);
+            }
+
+            @Override
+            public void enterList(MdAntlrParser.ListContext context) {
+                this.mdListItems = new ArrayList<>();
+            }
+
+            @Override
+            public void exitList(MdAntlrParser.ListContext context) {
+                Token token = context.getStart();
+                MdList MdList = new MdList(token.getStartIndex(), token.getStopIndex() + 1, this.mdListItems);
+                addNodeToAST(MdList);
+            }
+
+            @Override
+            public void enterListItem(MdAntlrParser.ListItemContext context) {
+                Token token = context.getStart();
+                bufferListItem = new ListItem(token.getStartIndex(), token.getStopIndex() + 1, new ArrayList<>());
+            }
+
+            @Override
+            public void exitListItem(MdAntlrParser.ListItemContext context) {
+                this.mdListItems.add(bufferListItem);
+                bufferListItem = null;
+            }
+
             public void addReference(ReferenceType type, Token token) {
                 OffsetRange range = new OffsetRange(token.getStartIndex(), token.getStopIndex() + 1);
                 String name = token.getText();
@@ -141,6 +195,13 @@ public class MdParserResult<T extends Parser> extends ParserResult {
                 references.put(ref.name, ref);
             }
 
+            private void addNodeToAST(MdElement element) {
+                if (bufferListItem != null) {
+                    bufferListItem.addContentItem(element);
+                } else {
+                    astMarkdownfile.addMdElement(element);
+                }
+            }
         };
     }
 

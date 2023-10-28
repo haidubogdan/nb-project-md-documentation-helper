@@ -91,8 +91,6 @@ public class MdLexer extends AbstractAntlrLexerBridge<MdAntlrLexer, MdTokenId> {
                 return token(HYPER_LINK); 
             case MdAntlrLexer.NL:
                 return token(NEWLINE);
-            case MdAntlrLexer.WS:
-                return token(WHITESPACE);
             case MdAntlrLexer.RAW_TEXT:
                 return token(RAW_TEXT);    
             default:

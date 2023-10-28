@@ -20,6 +20,16 @@ public interface MdAntlrParserListener extends ParseTreeListener {
 	 */
 	void exitFile(MdAntlrParser.FileContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MdAntlrParser#main_element}.
+	 * @param ctx the parse tree
+	 */
+	void enterMain_element(MdAntlrParser.Main_elementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdAntlrParser#main_element}.
+	 * @param ctx the parse tree
+	 */
+	void exitMain_element(MdAntlrParser.Main_elementContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MdAntlrParser#element}.
 	 * @param ctx the parse tree
 	 */
@@ -39,6 +49,16 @@ public interface MdAntlrParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitList(MdAntlrParser.ListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdAntlrParser#listItem}.
+	 * @param ctx the parse tree
+	 */
+	void enterListItem(MdAntlrParser.ListItemContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdAntlrParser#listItem}.
+	 * @param ctx the parse tree
+	 */
+	void exitListItem(MdAntlrParser.ListItemContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MdAntlrParser#header}.
 	 * @param ctx the parse tree
@@ -90,16 +110,6 @@ public interface MdAntlrParserListener extends ParseTreeListener {
 	 */
 	void exitRawText(MdAntlrParser.RawTextContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MdAntlrParser#listItem}.
-	 * @param ctx the parse tree
-	 */
-	void enterListItem(MdAntlrParser.ListItemContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MdAntlrParser#listItem}.
-	 * @param ctx the parse tree
-	 */
-	void exitListItem(MdAntlrParser.ListItemContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link MdAntlrParser#code}.
 	 * @param ctx the parse tree
 	 */
@@ -119,4 +129,14 @@ public interface MdAntlrParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBlockCode(MdAntlrParser.BlockCodeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link MdAntlrParser#link}.
+	 * @param ctx the parse tree
+	 */
+	void enterLink(MdAntlrParser.LinkContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdAntlrParser#link}.
+	 * @param ctx the parse tree
+	 */
+	void exitLink(MdAntlrParser.LinkContext ctx);
 }
