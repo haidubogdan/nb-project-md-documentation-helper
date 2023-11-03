@@ -39,7 +39,9 @@ fragment Header
     : (('#')+[ ]) ~[\n\r]*
     ;
 
-BREAK_LINE : ('---')+[-]* ~[\n\r];
+BREAK_LINE : BreakLine;
+
+fragment BreakLine : ('---')+[-]*;
 
 BOLD
     : Bold;
@@ -78,4 +80,8 @@ HYPER_LINK_LABEL
 HYPER_LINK  : '(' ~('\r' | '\n' | '(' | '[' | ']')* (')' | EOF)
     ;
 
-RAW_TEXT : . ;
+RAW_TEXT : RawText ;
+
+fragment RawText :
+    ('a'..'z'|'A'..'Z' | ' ' | '\t')+
+    | . ;

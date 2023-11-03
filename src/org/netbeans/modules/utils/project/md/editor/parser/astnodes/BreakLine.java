@@ -6,20 +6,17 @@ import org.netbeans.modules.utils.project.md.editor.parser.astnodes.visitors.Vis
  *
  * @author bhaidu
  */
-public class Header extends MdElement {
-
+public class BreakLine extends MdElement {
     String content;
 
-    public Header(int start, int end, String content) {
+    public BreakLine(int start, int end, String content) {
         super(start, end);
         this.content = content;
     }
 
     @Override
     public String toString() {
-        int pos = content.indexOf("# ") + 1;
-        String hType = String.valueOf(pos);
-        return "<h" + hType + ">" + content.substring(pos) + "</h" + hType + ">";
+        return "<hr>";
     }
 
     @Override

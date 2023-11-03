@@ -43,6 +43,18 @@ public class MdAntlrParserBaseListener implements MdAntlrParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLine(MdAntlrParser.LineContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLine(MdAntlrParser.LineContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterElement(MdAntlrParser.ElementContext ctx) { }
 	/**
 	 * {@inheritDoc}

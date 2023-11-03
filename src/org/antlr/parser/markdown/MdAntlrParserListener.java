@@ -30,6 +30,16 @@ public interface MdAntlrParserListener extends ParseTreeListener {
 	 */
 	void exitMain_element(MdAntlrParser.Main_elementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MdAntlrParser#line}.
+	 * @param ctx the parse tree
+	 */
+	void enterLine(MdAntlrParser.LineContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdAntlrParser#line}.
+	 * @param ctx the parse tree
+	 */
+	void exitLine(MdAntlrParser.LineContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MdAntlrParser#element}.
 	 * @param ctx the parse tree
 	 */

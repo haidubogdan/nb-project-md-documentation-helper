@@ -82,6 +82,7 @@ public class MdParserResult<T extends Parser> extends ParserResult {
         return new MdAntlrParserBaseListener() {
             ArrayList<ListItem> mdListItems = new ArrayList<>();
             ListItem bufferListItem = null;
+            MdLine mdLine = null;
 
             @Override
             public void exitHeader(MdAntlrParser.HeaderContext context) {
@@ -92,6 +93,18 @@ public class MdParserResult<T extends Parser> extends ParserResult {
 
                 Token token = context.HEADER().getSymbol();
                 astMarkdownfile.addMdElement(new Header(token.getStartIndex(), token.getStopIndex() + 1, token.getText()));
+            }
+
+            @Override
+            public void enterLine(MdAntlrParser.LineContext context){
+                Token token = context.getStart();
+                mdLine = new MdLine(token.getStartIndex(), token.getStopIndex() + 1, new ArrayList<>());
+            }
+
+            @Override
+            public void exitLine(MdAntlrParser.LineContext context){
+                astMarkdownfile.addMdElement(mdLine);
+                mdLine = null;
             }
 
             @Override
@@ -127,6 +140,17 @@ public class MdParserResult<T extends Parser> extends ParserResult {
                 addNodeToAST(element);
             }
 
+            @Override
+            public void exitBreakLine(MdAntlrParser.BreakLineContext context) {
+                if (context.BREAK_LINE() == null || context.BREAK_LINE().getSymbol() == null) {
+                    return;
+                }
+
+                Token token = context.BREAK_LINE().getSymbol();
+                BreakLine element = new BreakLine(token.getStartIndex(), token.getStopIndex() + 1, token.getText());
+                addNodeToAST(element);
+            }
+            
             @Override
             public void exitTextEffect(MdAntlrParser.TextEffectContext context) {
                 if (context.BOLD() != null) {
@@ -198,6 +222,8 @@ public class MdParserResult<T extends Parser> extends ParserResult {
             private void addNodeToAST(MdElement element) {
                 if (bufferListItem != null) {
                     bufferListItem.addContentItem(element);
+                } else if (mdLine != null){
+                    mdLine.addContentItem(element);
                 } else {
                     astMarkdownfile.addMdElement(element);
                 }

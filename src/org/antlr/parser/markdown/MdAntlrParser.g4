@@ -7,7 +7,10 @@ parser grammar MdAntlrParser;
 options { tokenVocab = MdAntlrLexer; }
 
 file: main_element+ EOF ;
-main_element: header | element;
+main_element: header | line | NL;
+
+line: element+ (NL | EOF);
+
 element: breakLine
 | textEffect
 | link
@@ -15,14 +18,13 @@ element: breakLine
 | list
 | html
 | rawText
-| NL
 ;
 
 list: listItem+;
 
-listItem : LI_PRE_WS element NL;
+listItem : LI_PRE_WS element+ NL;
 header: HEADER;
-breakLine : BREAK_LINE NL;
+breakLine : BREAK_LINE;
 textEffect : BOLD
     | ITALIC;
 

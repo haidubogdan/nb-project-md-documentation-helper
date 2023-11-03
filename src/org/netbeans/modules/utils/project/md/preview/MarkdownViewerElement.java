@@ -222,7 +222,12 @@ public class MarkdownViewerElement implements MultiViewElement {
                 if (astnFile != null) {
                     ViewerVisitor viewerVisitor = new ViewerVisitor();
                     viewerVisitor.scan(astnFile);
-                    html = viewerVisitor.getHtmlOutput();
+                    html = "<style>body {background:white;}code {font-size: 0.85em;\n" +
+"    background-color: rgb(247, 247, 247);\n" +
+"    padding: 0.2em;}\nhr {"
+                            + "height: 4px;\n" +
+"    background-color: rgb(231, 231, 231);}</style>";
+                    html += viewerVisitor.getHtmlOutput();
                 } else {
                     html = "<h1>Hello world</h1>";
                 }

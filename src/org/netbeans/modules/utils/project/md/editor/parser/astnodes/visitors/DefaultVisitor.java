@@ -36,11 +36,19 @@ public class DefaultVisitor implements Visitor {
     }
 
     @Override
+    public void visit(MdLine node) {
+    }
+
+    @Override
     public void visit(MdList node) {
     }
 
     @Override
     public void visit(HtmlElement node) {
+    }
+
+    @Override
+    public void visit(BreakLine node) {
     }
 
     @Override
@@ -50,11 +58,11 @@ public class DefaultVisitor implements Visitor {
     @Override
     public void visit(Scalar node) {
     }
-    
+
     @Override
     public void visit(HyperLink node) {
     }
-    
+
     @Override
     public void visit(TextEffect node) {
     }

@@ -13,12 +13,16 @@ public interface Visitor {
     public void visit(ASTNode node);
     
     public void visit(Header node);
-    
+
+    public void visit(MdLine node);
+
     public void visit(Code node);
     
     public void visit(MdList node);
     
     public void visit(HtmlElement node);
+    
+    public void visit(BreakLine node);
     
     public void visit(Scalar node);
     

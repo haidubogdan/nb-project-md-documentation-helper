@@ -17,7 +17,14 @@ public class ViewerVisitor extends DefaultVisitor {
             html += node.toString();
         }
     }
-    
+
+    @Override
+    public void visit(MdLine node) {
+        if (node != null) {
+            html += node.toString();
+        }
+    }
+
     @Override
     public void visit(Code node) {
         if (node != null) {
@@ -36,6 +43,13 @@ public class ViewerVisitor extends DefaultVisitor {
         }
     }
 
+    @Override
+    public void visit(BreakLine node) {
+        if (node != null) {
+            html += node.toString();
+        }
+    }
+    
     @Override
     public void visit(Scalar node) {
         if (node != null) {

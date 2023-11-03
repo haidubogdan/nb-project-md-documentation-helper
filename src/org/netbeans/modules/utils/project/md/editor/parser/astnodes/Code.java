@@ -17,10 +17,10 @@ public class Code extends MdElement {
 
     @Override
     public String toString() {
-        if (content.length() < 4){
+        if (content.length() < 2){
             return "";
         }
-        return "<code>" + content.substring(2, content.length() - 2) + "</code>";
+        return "<code>" + content.substring(1, content.length() - 1) + "</code>";
     }
 
     @Override
