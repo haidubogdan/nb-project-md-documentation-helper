@@ -115,6 +115,18 @@ public class MdAntlrParserBaseListener implements MdAntlrParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterBoldLink(MdAntlrParser.BoldLinkContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBoldLink(MdAntlrParser.BoldLinkContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterTextEffect(MdAntlrParser.TextEffectContext ctx) { }
 	/**
 	 * {@inheritDoc}

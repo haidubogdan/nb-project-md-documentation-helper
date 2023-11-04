@@ -154,15 +154,15 @@ public class MdParserResult<T extends Parser> extends ParserResult {
             @Override
             public void exitTextEffect(MdAntlrParser.TextEffectContext context) {
                 if (context.BOLD() != null) {
-                    Token token = context.BOLD().getSymbol();
-                    if (token.getText().length() < 4) {
-                        return;
+                    String text = "";
+                    for(TerminalNode token :context.BOLD()){
+                        text += token.getText();
                     }
-                    String text = token.getText().substring(2, token.getText().length() - 2);
-                    addNodeToAST(new TextEffect(token.getStartIndex(),
-                            token.getStopIndex(), TextEffect.Type.BOLD, text));
+
+                    addNodeToAST(new TextEffect(context.BOLD_START().getSymbol().getStartIndex(),
+                            context.BOLD_END().getSymbol().getStopIndex(), TextEffect.Type.BOLD, text));
                 } else if (context.ITALIC() != null) {
-                    Token token = context.BOLD().getSymbol();
+                    Token token = context.ITALIC().getSymbol();
                     if (token.getText().length() < 2) {
                         return;
                     }
@@ -174,6 +174,22 @@ public class MdParserResult<T extends Parser> extends ParserResult {
 
             @Override
             public void exitLink(MdAntlrParser.LinkContext context) {
+                if (context.HYPER_LINK_LABEL() == null || context.HYPER_LINK_LABEL().getSymbol() == null) {
+                    return;
+                }
+
+                Token label = context.HYPER_LINK_LABEL().getSymbol();
+                Token link = context.HYPER_LINK().getSymbol();
+                String labelText = label.getText().substring(1, label.getText().length() - 1);
+                int start = link.getStartIndex();
+                String linkText = link.getText().substring(1, link.getText().length() - 1);
+                int end = label.getStopIndex() + 1;
+                HyperLink linkElement = new HyperLink(start, end, linkText, labelText);
+                addNodeToAST(linkElement);
+            }
+            
+            @Override
+            public void exitBoldLink(MdAntlrParser.BoldLinkContext context) {
                 if (context.HYPER_LINK_LABEL() == null || context.HYPER_LINK_LABEL().getSymbol() == null) {
                     return;
                 }

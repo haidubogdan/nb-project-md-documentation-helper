@@ -90,6 +90,16 @@ public interface MdAntlrParserListener extends ParseTreeListener {
 	 */
 	void exitBreakLine(MdAntlrParser.BreakLineContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MdAntlrParser#boldLink}.
+	 * @param ctx the parse tree
+	 */
+	void enterBoldLink(MdAntlrParser.BoldLinkContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MdAntlrParser#boldLink}.
+	 * @param ctx the parse tree
+	 */
+	void exitBoldLink(MdAntlrParser.BoldLinkContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MdAntlrParser#textEffect}.
 	 * @param ctx the parse tree
 	 */

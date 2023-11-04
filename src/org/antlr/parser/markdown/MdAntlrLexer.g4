@@ -32,51 +32,30 @@ fragment HtmlElement
 
 NL :[\n\r];
 
-HEADER
-    : Header;
-
-fragment Header
-    : (('#')+[ ]) ~[\n\r]*
-    ;
+HEADER : (('#')+[ ]) ~[\n\r]*;
 
 BREAK_LINE : BreakLine;
 
 fragment BreakLine : ('---')+[-]*;
 
-BOLD
-    : Bold;
+BOLD_START: DbAsterix -> pushMode(INSIDE_BOLD);
 
-//should look for hyper links
-fragment Bold
-    : DbAsterix .*? (DbAsterix | EOF);
+fragment DbAsterix : '**' ;
 
-fragment DbAsterix
-    : '**' ;
+ITALIC: SgAsterix .*? (SgAsterix | EOF);
 
-ITALIC
-    : Italic;
+fragment SgAsterix : '*' ;
 
-fragment Italic
-    : SgAsterix .*? (SgAsterix | EOF);
+CODE : Backtip (Backtip | ~[\r\n])* Backtip;
 
-fragment SgAsterix
-    : '*' ;
+fragment Backtip : '`' ;
 
+FENCED_CODEBLOCK : Backticks3 (Backticks3 | ~[\r\n])* Backticks3;
+    
+fragment Backticks3 : '```' ;
 
-fragment Backtip
-   : '`'
-   ;
-
-fragment BacktickCode
-   : Backtip (Backtip | ~[\r\n])* Backtip
-   ;
-
-CODE : BacktickCode;
-
-HYPER_LINK_LABEL
-    : '[' ~('\r' | '\n' | '[' | '(' | ')')* (']' | EOF)
+HYPER_LINK_LABEL : '[' ~('\r' | '\n' | '[' | '(' | ')')* (']' | EOF)
     ;
-
 HYPER_LINK  : '(' ~('\r' | '\n' | '(' | '[' | ']')* (')' | EOF)
     ;
 
@@ -85,3 +64,16 @@ RAW_TEXT : RawText ;
 fragment RawText :
     ('a'..'z'|'A'..'Z' | ' ' | '\t')+
     | . ;
+
+mode INSIDE_BOLD;
+  
+BOLD_HYPER_LINK_LABEL : '[' ~('\r' | '\n' | '[' | '(' | ')')* (']' | EOF) -> type(HYPER_LINK_LABEL)
+    ;
+BOLD_HYPER_LINK  : '(' ~('\r' | '\n' | '(' | '[' | ']')* (')' | EOF) -> type(HYPER_LINK)
+    ;
+BOLD_END : DbAsterix->popMode;
+
+BOLD_NL : NL ->type(NL), popMode;
+BOLD : ~[\r\n*[(]+;
+
+SG_PAR : ('(' | '[') ->type(BOLD);

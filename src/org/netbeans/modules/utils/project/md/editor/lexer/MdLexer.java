@@ -75,6 +75,8 @@ public class MdLexer extends AbstractAntlrLexerBridge<MdAntlrLexer, MdTokenId> {
                 return token(HEADER);
             case MdAntlrLexer.BREAK_LINE:
                 return token(BREAK_LINE);
+            case MdAntlrLexer.BOLD_START:
+            case MdAntlrLexer.BOLD_END:   
             case MdAntlrLexer.BOLD:
                 return token(BOLD);
             case MdAntlrLexer.ITALIC:

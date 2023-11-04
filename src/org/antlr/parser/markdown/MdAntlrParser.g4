@@ -12,9 +12,10 @@ main_element: header | line | NL;
 line: element+ (NL | EOF);
 
 element: breakLine
+| boldLink    
 | textEffect
 | link
-| code    
+| code
 | list
 | html
 | rawText
@@ -25,9 +26,9 @@ list: listItem+;
 listItem : LI_PRE_WS element+ NL;
 header: HEADER;
 breakLine : BREAK_LINE;
-textEffect : BOLD
+boldLink : BOLD_START HYPER_LINK_LABEL HYPER_LINK BOLD_END;
+textEffect : BOLD_START BOLD+ BOLD_END
     | ITALIC;
-
 html: HTML;
 rawText : RAW_TEXT;
 code : CODE;
