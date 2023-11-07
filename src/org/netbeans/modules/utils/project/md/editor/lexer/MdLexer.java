@@ -41,7 +41,7 @@
  */
 package org.netbeans.modules.utils.project.md.editor.lexer;
 
-import org.antlr.parser.markdown.MdAntlrLexer;
+import org.antlr.parser.markdown.MdColoringAntlrLexer;
 import org.netbeans.api.lexer.Token;
 import static org.netbeans.modules.utils.project.md.editor.lexer.MdTokenId.*;
 import org.netbeans.spi.lexer.LexerRestartInfo;
@@ -52,10 +52,10 @@ import org.netbeans.spi.lexer.antlr4.AbstractAntlrLexerBridge;
  *
  * @author bogdan
  */
-public class MdLexer extends AbstractAntlrLexerBridge<MdAntlrLexer, MdTokenId> {
+public class MdLexer extends AbstractAntlrLexerBridge<MdColoringAntlrLexer, MdTokenId> {
 
     public MdLexer(LexerRestartInfo<MdTokenId> info) {
-        super(info, MdAntlrLexer::new);
+        super(info, MdColoringAntlrLexer::new);
     }
 
     @Override
@@ -69,48 +69,48 @@ public class MdLexer extends AbstractAntlrLexerBridge<MdAntlrLexer, MdTokenId> {
         String text = antlrToken.getText();
         int type = antlrToken.getType();
         switch (type) {
-            case MdAntlrLexer.HTML:
+            case MdColoringAntlrLexer.HTML:
                 return token(HTML);
-            case MdAntlrLexer.HEADER:
+            case MdColoringAntlrLexer.HEADER:
                 return token(HEADER);
-            case MdAntlrLexer.BREAK_LINE:
+            case MdColoringAntlrLexer.BREAK_LINE:
                 return token(BREAK_LINE);
-            case MdAntlrLexer.BOLD_START:
-            case MdAntlrLexer.BOLD_END:   
-            case MdAntlrLexer.BOLD:
+            case MdColoringAntlrLexer.BOLD_START:
+            case MdColoringAntlrLexer.BOLD_END:   
+            case MdColoringAntlrLexer.BOLD:
                 return token(BOLD);
-            case MdAntlrLexer.ITALIC:
+            case MdColoringAntlrLexer.ITALIC:
                 return token(ITALIC);
-            case MdAntlrLexer.BLOCK_CODE:
+            case MdColoringAntlrLexer.BLOCK_CODE:
                 return token(BLOCK_CODE);    
-            case MdAntlrLexer.CODE:
+            case MdColoringAntlrLexer.CODE:
                 return token(CODE);
-            case MdAntlrLexer.LI_PRE_WS:
+            case MdColoringAntlrLexer.LI_PRE_WS:
                 return token(LI);
-            case MdAntlrLexer.HYPER_LINK_LABEL:
+            case MdColoringAntlrLexer.HYPER_LINK_LABEL:
                 return token(HYPER_LINK_LABEL);
-            case MdAntlrLexer.HYPER_LINK:
+            case MdColoringAntlrLexer.HYPER_LINK:
                 return token(HYPER_LINK); 
-            case MdAntlrLexer.NL:
+            case MdColoringAntlrLexer.NL:
                 return token(NEWLINE);
-            case MdAntlrLexer.RAW_TEXT:
+            case MdColoringAntlrLexer.RAW_TEXT:
                 return token(RAW_TEXT);    
             default:
                 return token(ERROR);
         }
     }
 
-    private static class State extends AbstractAntlrLexerBridge.LexerState<MdAntlrLexer> {
+    private static class State extends AbstractAntlrLexerBridge.LexerState<MdColoringAntlrLexer> {
 
         final int currentRuleType;
 
-        public State(MdAntlrLexer lexer) {
+        public State(MdColoringAntlrLexer lexer) {
             super(lexer);
             this.currentRuleType = lexer.getCurrentRuleType();
         }
 
         @Override
-        public void restore(MdAntlrLexer lexer) {
+        public void restore(MdColoringAntlrLexer lexer) {
             super.restore(lexer);
             lexer.setCurrentRuleType(currentRuleType);
         }

@@ -1,4 +1,4 @@
-lexer grammar MdAntlrLexer;
+lexer grammar MdColoringAntlrLexer;
 
 @header{
   package org.antlr.parser.markdown;
@@ -15,6 +15,10 @@ fragment LiPrefix
     | ([ \t]* '* ')
     | ([ \t]* [0-9]+ '. ')
     ;
+
+BLOCK_CODE : TriBacktick .*? (TriBacktick | EOF);
+
+TriBacktick : '```';
 
 HTML
    : HtmlElement
@@ -42,12 +46,7 @@ ITALIC: SgAsterix .*? (SgAsterix | EOF);
 
 fragment SgAsterix : '*' ;
 
-//this is too greedy
-CODE : Backtick {this._input.LA(2)!='`' && this._input.LA(3)!='`'}? (Backtick | ~[\r\n])* Backtick;
-
-BLOCK_CODE_START : TriBacktick->pushMode(INSIDE_BLOCK_CODE);
-
-fragment TriBacktick : '```';
+CODE : Backtick (Backtick | ~[\r\n])* Backtick;
 
 fragment Backtick : '`' ;
 
@@ -59,7 +58,7 @@ HYPER_LINK  : '(' ~('\r' | '\n' | '(' | '[' | ']')* (')' | EOF)
 RAW_TEXT : RawText ;
 
 fragment RawText :
-    ('a'..'z'|'A'..'Z')+
+    ('a'..'z'|'A'..'Z' | ' ' | '\t')+
     | . ;
 
 mode INSIDE_BOLD;
@@ -74,10 +73,3 @@ BOLD_NL : NL ->type(NL), popMode;
 BOLD : ~[\r\n*[(]+;
 
 SINGLE_PAR : ('(' | '[') ->type(BOLD);
-
-mode INSIDE_BLOCK_CODE;
-
-LANG_TYPE : {this.isFirstCodeBlockElement()}? ~[\r\n]+;
-BLOCK_CODE : ~('`' | '\r' | '\n')+;
-BLOCK_CODE_END : TriBacktick->popMode;
-BLOCK_CODE_ESCAPE : [\r\n`] ->type(BLOCK_CODE);

@@ -46,4 +46,11 @@ public abstract class LexerAdaptor extends Lexer {
         } 
         return false;
     }
+    
+    public boolean isFirstCodeBlockElement(){
+        if (this._tokenStartCharPositionInLine == 3){
+            return true;
+        } 
+        return false;
+    }
 }

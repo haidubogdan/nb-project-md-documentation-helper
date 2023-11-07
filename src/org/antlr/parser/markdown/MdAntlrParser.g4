@@ -16,6 +16,7 @@ element: breakLine
 | textEffect
 | link
 | code
+| blockCode
 | list
 | html
 | rawText
@@ -32,5 +33,5 @@ textEffect : BOLD_START BOLD+ BOLD_END
 html: HTML;
 rawText : RAW_TEXT;
 code : CODE;
-blockCode : BLOCK_CODE;
+blockCode : BLOCK_CODE_START LANG_TYPE? BLOCK_CODE+ BLOCK_CODE_END;
 link: HYPER_LINK_LABEL HYPER_LINK;

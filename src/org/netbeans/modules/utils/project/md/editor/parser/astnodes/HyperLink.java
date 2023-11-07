@@ -9,6 +9,7 @@ import org.netbeans.modules.utils.project.md.editor.parser.astnodes.visitors.Vis
 public class HyperLink extends MdElement {
     private final String hrefAttribute;
     private final String label;
+    private TextEffect.Type textEffect = null;
 
     public HyperLink(int start, int end, String hrefAttribute, String label) {
         super(start, end);
@@ -16,9 +17,21 @@ public class HyperLink extends MdElement {
         this.label = label;
     }
 
+    public HyperLink(int start, int end, String hrefAttribute, String label, TextEffect.Type textEffect) {
+        super(start, end);
+        this.hrefAttribute = hrefAttribute;
+        this.label = label;
+        this.textEffect = textEffect;
+    }
+        
     @Override
     public String toString() {
-        return "<a href=\\\"" + hrefAttribute + "\\\">" + label + "</a>";
+        
+        String link =  "<a href=\\\"" + hrefAttribute + "\\\">" + label + "</a>";
+        if (textEffect != null && textEffect.equals(TextEffect.Type.BOLD)){
+            link = "<b>" + link + "</b>";
+        }
+        return link;
     }
 
     @Override

@@ -96,13 +96,13 @@ public class MdParserResult<T extends Parser> extends ParserResult {
             }
 
             @Override
-            public void enterLine(MdAntlrParser.LineContext context){
+            public void enterLine(MdAntlrParser.LineContext context) {
                 Token token = context.getStart();
                 mdLine = new MdLine(token.getStartIndex(), token.getStopIndex() + 1, new ArrayList<>());
             }
 
             @Override
-            public void exitLine(MdAntlrParser.LineContext context){
+            public void exitLine(MdAntlrParser.LineContext context) {
                 astMarkdownfile.addMdElement(mdLine);
                 mdLine = null;
             }
@@ -141,6 +141,26 @@ public class MdParserResult<T extends Parser> extends ParserResult {
             }
 
             @Override
+            public void exitBlockCode(MdAntlrParser.BlockCodeContext context) {
+                if (context.BLOCK_CODE() == null) {
+                    return;
+                }
+
+                String text = "";
+                for (TerminalNode token : context.BLOCK_CODE()) {
+                    text += token.getText();
+                }
+                Token startToken = context.BLOCK_CODE_START().getSymbol();
+                Token endToken = context.BLOCK_CODE_END().getSymbol();
+                String lang = null;
+                if (context.LANG_TYPE() != null) {
+                    lang = context.LANG_TYPE().getText();
+                }
+                BlockCode element = new BlockCode(startToken.getStartIndex(), endToken.getStopIndex() + 1, text, lang);
+                addNodeToAST(element);
+            }
+
+            @Override
             public void exitBreakLine(MdAntlrParser.BreakLineContext context) {
                 if (context.BREAK_LINE() == null || context.BREAK_LINE().getSymbol() == null) {
                     return;
@@ -150,12 +170,12 @@ public class MdParserResult<T extends Parser> extends ParserResult {
                 BreakLine element = new BreakLine(token.getStartIndex(), token.getStopIndex() + 1, token.getText());
                 addNodeToAST(element);
             }
-            
+
             @Override
             public void exitTextEffect(MdAntlrParser.TextEffectContext context) {
                 if (context.BOLD() != null) {
                     String text = "";
-                    for(TerminalNode token :context.BOLD()){
+                    for (TerminalNode token : context.BOLD()) {
                         text += token.getText();
                     }
 
@@ -187,7 +207,7 @@ public class MdParserResult<T extends Parser> extends ParserResult {
                 HyperLink linkElement = new HyperLink(start, end, linkText, labelText);
                 addNodeToAST(linkElement);
             }
-            
+
             @Override
             public void exitBoldLink(MdAntlrParser.BoldLinkContext context) {
                 if (context.HYPER_LINK_LABEL() == null || context.HYPER_LINK_LABEL().getSymbol() == null) {
@@ -200,7 +220,7 @@ public class MdParserResult<T extends Parser> extends ParserResult {
                 int start = link.getStartIndex();
                 String linkText = link.getText().substring(1, link.getText().length() - 1);
                 int end = label.getStopIndex() + 1;
-                HyperLink linkElement = new HyperLink(start, end, linkText, labelText);
+                HyperLink linkElement = new HyperLink(start, end, linkText, labelText, TextEffect.Type.BOLD);
                 addNodeToAST(linkElement);
             }
 
@@ -238,7 +258,7 @@ public class MdParserResult<T extends Parser> extends ParserResult {
             private void addNodeToAST(MdElement element) {
                 if (bufferListItem != null) {
                     bufferListItem.addContentItem(element);
-                } else if (mdLine != null){
+                } else if (mdLine != null) {
                     mdLine.addContentItem(element);
                 } else {
                     astMarkdownfile.addMdElement(element);

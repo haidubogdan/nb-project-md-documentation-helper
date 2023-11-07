@@ -17,6 +17,11 @@
             <arg value="MdAntlrLexer.g4"/>
             <arg value="MdAntlrParser.g4"/>
         </java>
+        <java classname="org.antlr.v4.Tool" classpathref="antlr4.tool" fork="true" dir="${md.outdir}">
+            <arg value="-o"/>
+            <arg value="${md.outdir}"/>
+            <arg value="MdColoringAntlrLexer.g4"/>
+        </java>
         <delete dir="${md.outdir}" includes="*.tokens"/>
         <delete dir="${md.outdir}" includes="*.interp"/>
     </target>
