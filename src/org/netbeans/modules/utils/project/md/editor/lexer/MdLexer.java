@@ -81,6 +81,8 @@ public class MdLexer extends AbstractAntlrLexerBridge<MdColoringAntlrLexer, MdTo
                 return token(BOLD);
             case MdColoringAntlrLexer.ITALIC:
                 return token(ITALIC);
+            case MdColoringAntlrLexer.STRIKETHROUGH:
+                return token(STRIKETHROUGH);
             case MdColoringAntlrLexer.BLOCK_CODE:
                 return token(BLOCK_CODE);    
             case MdColoringAntlrLexer.CODE:

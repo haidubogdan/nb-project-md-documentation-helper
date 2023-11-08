@@ -18,7 +18,6 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ConsoleErrorListener;
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.netbeans.modules.utils.project.md.editor.parser.astnodes.*;
@@ -173,7 +172,7 @@ public class MdParserResult<T extends Parser> extends ParserResult {
 
             @Override
             public void exitTextEffect(MdAntlrParser.TextEffectContext context) {
-                if (context.BOLD() != null) {
+                if (context.BOLD() != null && context.BOLD_START() != null) {
                     String text = "";
                     for (TerminalNode token : context.BOLD()) {
                         text += token.getText();
@@ -189,6 +188,14 @@ public class MdParserResult<T extends Parser> extends ParserResult {
                     String text = token.getText().substring(1, token.getText().length() - 1);
                     addNodeToAST(new TextEffect(token.getStartIndex(),
                             token.getStopIndex(), TextEffect.Type.ITALIC, text));
+                } else if (context.STRIKETHROUGH()!= null) {
+                    Token token = context.STRIKETHROUGH().getSymbol();
+                    if (token.getText().length() < 4) {
+                        return;
+                    }
+                    String text = token.getText().substring(2, token.getText().length() - 2);
+                    addNodeToAST(new TextEffect(token.getStartIndex(),
+                            token.getStopIndex(), TextEffect.Type.STRIKETHROUGH, text));
                 }
             }
 
@@ -200,11 +207,16 @@ public class MdParserResult<T extends Parser> extends ParserResult {
 
                 Token label = context.HYPER_LINK_LABEL().getSymbol();
                 Token link = context.HYPER_LINK().getSymbol();
-                String labelText = label.getText().substring(1, label.getText().length() - 1);
+                boolean isImage = label.getText().startsWith("!");
+                int labelTrimStart = 1;
+                if (isImage){
+                    labelTrimStart = 2;
+                }
+                String labelText = label.getText().substring(labelTrimStart, label.getText().length() - 1);
                 int start = link.getStartIndex();
                 String linkText = link.getText().substring(1, link.getText().length() - 1);
                 int end = label.getStopIndex() + 1;
-                HyperLink linkElement = new HyperLink(start, end, linkText, labelText);
+                HyperLink linkElement = new HyperLink(start, end, linkText, labelText, isImage);
                 addNodeToAST(linkElement);
             }
 
@@ -216,11 +228,16 @@ public class MdParserResult<T extends Parser> extends ParserResult {
 
                 Token label = context.HYPER_LINK_LABEL().getSymbol();
                 Token link = context.HYPER_LINK().getSymbol();
-                String labelText = label.getText().substring(1, label.getText().length() - 1);
+                boolean isImage = label.getText().startsWith("!");
+                int labelTrimStart = 1;
+                if (isImage){
+                    labelTrimStart = 2;
+                }
+                String labelText = label.getText().substring(labelTrimStart, label.getText().length() - 1);
                 int start = link.getStartIndex();
                 String linkText = link.getText().substring(1, link.getText().length() - 1);
                 int end = label.getStopIndex() + 1;
-                HyperLink linkElement = new HyperLink(start, end, linkText, labelText, TextEffect.Type.BOLD);
+                HyperLink linkElement = new HyperLink(start, end, linkText, labelText, TextEffect.Type.BOLD, isImage);
                 addNodeToAST(linkElement);
             }
 

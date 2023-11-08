@@ -13,7 +13,8 @@ public class TextEffect extends MdElement {
 
     public static enum Type {
         BOLD,
-        ITALIC;
+        ITALIC,
+        STRIKETHROUGH;
     }
 
     public TextEffect(int start, int end, Type type, String content) {
@@ -25,10 +26,17 @@ public class TextEffect extends MdElement {
     @Override
     public String toString() {
         String htmlName = "";
-        if (type.equals(Type.BOLD)){
-            htmlName = "b";
-        } else if (type.equals(Type.ITALIC)){
-            htmlName = "i";
+        
+        switch(type){
+            case BOLD:
+               htmlName = "b";
+               break;
+            case ITALIC:
+                htmlName = "i";
+                break;
+            case STRIKETHROUGH:
+                htmlName = "s";
+                break;
         }
 
         if (htmlName.isEmpty()){

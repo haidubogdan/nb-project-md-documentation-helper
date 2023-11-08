@@ -34,6 +34,8 @@
     <fontcolor name="italic" foreColor="pink">
         <font style="italic"/>
     </fontcolor>
+    <fontcolor name="strikethrough" foreColor="red">
+    </fontcolor>
     <fontcolor name="link" foreColor="blue"/>
     <fontcolor name="link_label" foreColor="orange"/>
 </fontscolors>

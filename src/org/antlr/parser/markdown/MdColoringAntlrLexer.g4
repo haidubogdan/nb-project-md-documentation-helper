@@ -44,13 +44,17 @@ fragment DoubleAsterix : '**' ;
 
 ITALIC: SgAsterix .*? (SgAsterix | EOF);
 
+ITALIC_2: '_' .*? ('_' | EOF) ->type(ITALIC);
+
+STRIKETHROUGH: '~~' .*? ('~~' | EOF);
+
 fragment SgAsterix : '*' ;
 
 CODE : Backtick (Backtick | ~[\r\n])* Backtick;
 
 fragment Backtick : '`' ;
 
-HYPER_LINK_LABEL : '[' ~('\r' | '\n' | '[' | '(' | ')')* (']' | EOF)
+HYPER_LINK_LABEL : '!'? '[' ~('\r' | '\n' | '[' | '(' | ')')* (']' | EOF)
     ;
 HYPER_LINK  : '(' ~('\r' | '\n' | '(' | '[' | ']')* (')' | EOF)
     ;
@@ -63,7 +67,7 @@ fragment RawText :
 
 mode INSIDE_BOLD;
   
-BOLD_HYPER_LINK_LABEL : '[' ~('\r' | '\n' | '[' | '(' | ')')* (']' | EOF) -> type(HYPER_LINK_LABEL)
+BOLD_HYPER_LINK_LABEL : '!'? '[' ~('\r' | '\n' | '[' | '(' | ')')* (']' | EOF) -> type(HYPER_LINK_LABEL)
     ;
 BOLD_HYPER_LINK  : '(' ~('\r' | '\n' | '(' | '[' | ']')* (')' | EOF) -> type(HYPER_LINK)
     ;

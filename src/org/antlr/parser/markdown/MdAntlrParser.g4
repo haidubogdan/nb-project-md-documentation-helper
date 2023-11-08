@@ -29,7 +29,7 @@ header: HEADER;
 breakLine : BREAK_LINE;
 boldLink : BOLD_START HYPER_LINK_LABEL HYPER_LINK BOLD_END;
 textEffect : BOLD_START BOLD+ BOLD_END
-    | ITALIC;
+    | ITALIC | STRIKETHROUGH;
 html: HTML;
 rawText : RAW_TEXT;
 code : CODE;

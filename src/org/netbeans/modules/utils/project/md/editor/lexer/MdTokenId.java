@@ -65,6 +65,7 @@ public enum MdTokenId implements TokenId {
     BLOCK_CODE("code"),
     CODE("code"),
     ITALIC("italic"),
+    STRIKETHROUGH("strikethrough"),
     LI("li_item"),
     NEWLINE("whitespace"),
     WHITESPACE("whitespace"),

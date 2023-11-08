@@ -25,7 +25,7 @@ public class BlockCode extends MdElement {
         String langClass = "";
         
         if (lang != null){
-            langClass = " class=\\\"md-" + langClass + "\\\"";
+            langClass = " class=\"md-" + langClass + "\"";
         }
         return "<pre><code" + langClass + ">" + content.substring(3, content.length() - 3) + "</code></pre>";
     }

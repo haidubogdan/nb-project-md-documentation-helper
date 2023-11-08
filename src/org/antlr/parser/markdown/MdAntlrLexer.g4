@@ -42,16 +42,20 @@ ITALIC: SgAsterix .*? (SgAsterix | EOF);
 
 fragment SgAsterix : '*' ;
 
-//this is too greedy
+ITALIC_2: '_' .*? ('_' | EOF) ->type(ITALIC);
+
+STRIKETHROUGH: '~~' .*? ('~~' | EOF);
+
 CODE : Backtick {this._input.LA(2)!='`' && this._input.LA(3)!='`'}? (Backtick | ~[\r\n])* Backtick;
+
+fragment Backtick : '`' ;
 
 BLOCK_CODE_START : TriBacktick->pushMode(INSIDE_BLOCK_CODE);
 
 fragment TriBacktick : '```';
 
-fragment Backtick : '`' ;
-
-HYPER_LINK_LABEL : '[' ~('\r' | '\n' | '[' | '(' | ')')* (']' | EOF)
+//images will be included in this token
+HYPER_LINK_LABEL : '!'? '[' ~('\r' | '\n' | '[' | '(' | ')')* (']' | EOF)
     ;
 HYPER_LINK  : '(' ~('\r' | '\n' | '(' | '[' | ']')* (')' | EOF)
     ;
@@ -63,8 +67,8 @@ fragment RawText :
     | . ;
 
 mode INSIDE_BOLD;
-  
-BOLD_HYPER_LINK_LABEL : '[' ~('\r' | '\n' | '[' | '(' | ')')* (']' | EOF) -> type(HYPER_LINK_LABEL)
+
+BOLD_HYPER_LINK_LABEL : '!'? '[' ~('\r' | '\n' | '[' | '(' | ')')* (']' | EOF) -> type(HYPER_LINK_LABEL)
     ;
 BOLD_HYPER_LINK  : '(' ~('\r' | '\n' | '(' | '[' | ']')* (')' | EOF) -> type(HYPER_LINK)
     ;
